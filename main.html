@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <script src="./api.js"></script>
+  <style>
+    body {
+      display: flex;
+    }
+
+    table {
+      padding: 5%
+    }
+
+    .box {
+      border: solid 2px rgb(163, 163, 163);
+      width: 8px;
+      height: 8px;
+    }
+
+    .black {
+      background-color: black;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="drawing1">
+  </div>
+  <div class="drawing2">
+  </div>
+  <div class="drawing3">
+  </div>
+  <input type="button" value="초기화" onclick="refresh()" />
+  <input type="button" value="테스트" onclick="getCB()" />
+  <script>
+    let flag1 = false;
+    let flag2 = false;
+    let flag3 = false;
+    let arr1 = new Array(28);
+    let arr2 = new Array(28);
+    let arr3 = new Array(28);
+    for (let i = 0; i < 28; i++) {
+      arr1[i] = new Array(28).fill(255);
+      arr2[i] = new Array(28).fill(255);
+      arr3[i] = new Array(28).fill(255);
+    }
+    const $drawing1 = document.querySelector(".drawing1");
+    const $drawing2 = document.querySelector(".drawing2");
+    const $drawing3 = document.querySelector(".drawing3");
+    const refresh = () => {
+      console.log(arr1)
+      arr1 = new Array(28);
+      arr2 = new Array(28);
+      arr3 = new Array(28);
+      for (let i = 0; i < 28; i++) {
+        arr1[i] = new Array(28).fill(255);
+        arr2[i] = new Array(28).fill(255);
+        arr3[i] = new Array(28).fill(255);
+      }
+
+      $drawing1.innerHTML = '';
+      $drawing2.innerHTML = '';
+      $drawing3.innerHTML = '';
+      let table1 = "<table>";
+      let table2 = "<table>";
+      let table3 = "<table>";
+      for (let i = 0; i < 28; i++) {
+        table1 += "<tr>";
+        table2 += "<tr>";
+        table3 += "<tr>";
+        for (let j = 0; j < 28; j++) {
+          table1 += `<td class = 'box' onmouseenter='draw1(this, ${i * 28 + j})' disable readonly></td>`;
+          table2 += `<td class = 'box' onmouseenter='draw2(this, ${i * 28 + j})' disable readonly></td>`;
+          table3 += `<td class = 'box' onmouseenter='draw3(this, ${i * 28 + j})' disable readonly></td>`;
+        }
+        table1 += "</tr>";
+        table2 += "</tr>";
+        table3 += "</tr>";
+      }
+      table1 += "</table>";
+      table2 += "</table>";
+      table3 += "</table>";
+      $drawing1.innerHTML = table1;
+      $drawing2.innerHTML = table2;
+      $drawing3.innerHTML = table3;
+    };
+    const draw1 = (e, idx) => {
+      if (flag1) {
+        e.classList.add("black");
+        arr1[Math.floor(idx / 28)][idx % 28] = 0;
+      }
+    }
+    const draw2 = (e, idx) => {
+      if (flag2) {
+        e.classList.add("black");
+        arr2[Math.floor(idx / 28)][idx % 28] = 0;
+      }
+    }
+    const draw3 = (e, idx) => {
+      if (flag3) {
+        e.classList.add("black");
+        arr3[Math.floor(idx / 28)][idx % 28] = 0;
+      }
+    }
+    $drawing1.addEventListener("mousedown", () => { flag1 = true; })
+    $drawing1.addEventListener("mouseup", () => { flag1 = false; })
+
+    $drawing2.addEventListener("mousedown", () => { flag2 = true; })
+    $drawing2.addEventListener("mouseup", () => { flag2 = false; })
+
+    $drawing3.addEventListener("mousedown", () => { flag3 = true; })
+    $drawing3.addEventListener("mouseup", () => { flag3 = false; })
+    refresh();
+
+
+    const getCB = () => {
+      get(arr1, arr2, arr3)
+    }
+  </script>
+</body>
+
+</html>
